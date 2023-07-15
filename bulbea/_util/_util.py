@@ -4,7 +4,7 @@ from six import string_types
 
 # imports - standard packages
 import os
-import collections.abc as collections
+from six.moves import collections_abc as collections
 import numbers
 from datetime import datetime
 
