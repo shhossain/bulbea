@@ -4,7 +4,7 @@ from six import string_types
 
 # imports - standard packages
 import os
-import collections
+import collections.abc as collections
 import numbers
 from datetime import datetime
 
