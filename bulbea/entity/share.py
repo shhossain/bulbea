@@ -156,40 +156,11 @@ class Share(Entity):
     Date
     2003-05-15  18.6  18.849999  18.470001  18.73  71248800.0        1.213325
     '''
-    def __init__(self, source, ticker, start = None, end = None, latest = None, cache = False):
-        _check_str(source, raise_err = True)
-        _check_str(ticker, raise_err = True)
+    def __init__(self, data):
+       self.data   = data
+       self.length = len(self.data)
+       self.attrs  = list(self.data.columns)
 
-        envvar = AppConfig.ENVIRONMENT_VARIABLE['quandl_api_key']
-
-        if not _check_environment_variable_set(envvar):
-            message = Color.warn("Environment variable {envvar} for Quandl hasn't been set. A maximum of {max_calls} calls per day can be made. Visit {url} to get your API key.".format(envvar = envvar, max_calls = QUANDL_MAX_DAILY_CALLS, url = ABSURL_QUANDL))
-
-            warnings.warn(message)
-        else:
-            quandl.ApiConfig.api_key = os.getenv(envvar)
-
-        self.source    = source
-        self.ticker    = ticker
-
-        self.update(start = start, end = end, latest = latest, cache = cache)
-
-    def update(self, start = None, end = None, latest = None, cache = False):
-        '''
-        Update the share with the latest available data.
-
-        :Example:
-
-        >>> import bulbea as bb
-        >>> share = bb.Share(source = 'YAHOO', ticker = 'AAPL')
-        >>> share.update()
-        '''
-        self.data    = quandl.get('{database}/{code}'.format(
-            database = self.source,
-            code     = self.ticker
-        ))
-        self.length  =  len(self.data)
-        self.attrs   = list(self.data.columns)
 
     def __len__(self):
         '''
